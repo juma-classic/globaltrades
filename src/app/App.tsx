@@ -76,6 +76,9 @@ const DTraderIframeExternal = lazy(() => import('../pages/dtrader-iframe-externa
 // New Copy Trading Page
 const NewCopyTrading = lazy(() => import('../pages/new-copy-trading').then(m => ({ default: m.default })));
 
+// Advanced Analysis Page
+const AdvancedAnalysis = lazy(() => import('../pages/advanced-analysis').then(m => ({ default: m.default })));
+
 const { TRANSLATIONS_CDN_URL, R2_PROJECT_NAME, CROWDIN_BRANCH_NAME } = process.env;
 const i18nInstance = initializeI18n({
     cdnUrl: `${TRANSLATIONS_CDN_URL}/${R2_PROJECT_NAME}/${CROWDIN_BRANCH_NAME}`,
@@ -138,6 +141,9 @@ const router = createBrowserRouter(
 
             {/* New Copy Trading Page */}
             <Route path='new-copy-trading' element={<NewCopyTrading />} />
+
+            {/* Advanced Analysis Page */}
+            <Route path='advanced-analysis' element={<AdvancedAnalysis />} />
 
             {/* Phase 1 Demo Routes */}
             <Route path='live-signals-demo' element={<LiveSignalsDemo />} />

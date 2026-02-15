@@ -19,7 +19,7 @@
     }
 }
 
-.particles-canvas {
+.globe-canvas {
     position: absolute;
     top: 0;
     left: 0;
@@ -59,60 +59,80 @@
 
 .logo-icon {
     position: relative;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 1rem;
 }
 
-.icon-circle {
-    width: 80px;
-    height: 80px;
+.globe-icon {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.globe-core {
+    width: 50px;
+    height: 50px;
+    background: radial-gradient(circle at 30% 30%, #00D4FF, #0066CC);
+    border-radius: 50%;
+    position: absolute;
+    box-shadow: 
+        0 0 20px rgba(0, 212, 255, 0.6),
+        inset -10px -10px 20px rgba(0, 0, 0, 0.3),
+        inset 10px 10px 20px rgba(255, 255, 255, 0.1);
+    animation: globe-pulse 3s ease-in-out infinite;
+}
+
+.globe-ring {
+    position: absolute;
+    width: 100px;
+    height: 100px;
     border: 3px solid #00D4FF;
     border-radius: 50%;
-    position: relative;
-    animation: rotate 3s linear infinite;
-    
-    &::before {
-        content: '';
-        position: absolute;
-        top: -3px;
-        left: -3px;
-        right: -3px;
-        bottom: -3px;
-        border: 2px solid transparent;
-        border-top-color: #0099CC;
-        border-radius: 50%;
-        animation: rotate 2s linear infinite reverse;
-    }
+    transform: rotateX(60deg);
+    animation: orbit-ring 4s linear infinite;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
 }
 
-.icon-arrow {
+.globe-ring-2 {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 0;
-    height: 0;
-    border-left: 15px solid transparent;
-    border-right: 15px solid transparent;
-    border-bottom: 20px solid #00D4FF;
-    animation: pulse 2s ease-in-out infinite;
+    width: 100px;
+    height: 100px;
+    border: 2px solid #00FF88;
+    border-radius: 50%;
+    transform: rotateX(60deg) rotateZ(90deg);
+    animation: orbit-ring-reverse 4s linear infinite;
+    box-shadow: 0 0 15px rgba(0, 255, 136, 0.4);
 }
 
-@keyframes rotate {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
+@keyframes globe-pulse {
     0%, 100% { 
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1);
+        transform: scale(1);
+        box-shadow: 
+            0 0 20px rgba(0, 212, 255, 0.6),
+            inset -10px -10px 20px rgba(0, 0, 0, 0.3),
+            inset 10px 10px 20px rgba(255, 255, 255, 0.1);
     }
     50% { 
-        opacity: 0.7;
-        transform: translate(-50%, -50%) scale(1.1);
+        transform: scale(1.1);
+        box-shadow: 
+            0 0 30px rgba(0, 212, 255, 0.8),
+            inset -10px -10px 20px rgba(0, 0, 0, 0.3),
+            inset 10px 10px 20px rgba(255, 255, 255, 0.1);
     }
+}
+
+@keyframes orbit-ring {
+    from { transform: rotateX(60deg) rotateZ(0deg); }
+    to { transform: rotateX(60deg) rotateZ(360deg); }
+}
+
+@keyframes orbit-ring-reverse {
+    from { transform: rotateX(60deg) rotateZ(90deg) rotateY(0deg); }
+    to { transform: rotateX(60deg) rotateZ(90deg) rotateY(360deg); }
 }
 
 .logo-text {
@@ -122,12 +142,12 @@
     letter-spacing: 0.05em;
     margin: 0;
     
-    .trader {
+    .global {
         color: #ffffff;
         text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
     }
     
-    .master {
+    .trades {
         color: #00D4FF;
         text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
         margin-left: 0.2em;
@@ -140,7 +160,7 @@
     font-weight: 400;
     color: #8892b0;
     margin: 0.5rem 0 0 0;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
 }
 
@@ -260,19 +280,24 @@
     }
     
     .logo-icon {
-        width: 60px;
-        height: 60px;
+        width: 80px;
+        height: 80px;
     }
     
-    .icon-circle {
-        width: 60px;
-        height: 60px;
+    .globe-icon {
+        width: 80px;
+        height: 80px;
     }
     
-    .icon-arrow {
-        border-left-width: 12px;
-        border-right-width: 12px;
-        border-bottom-width: 16px;
+    .globe-core {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .globe-ring,
+    .globe-ring-2 {
+        width: 80px;
+        height: 80px;
     }
     
     .progress-ring {

@@ -1,0 +1,75 @@
+.advanced-analysis-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #050a14 0%, #0a1525 50%, #0f1f35 100%);
+    overflow: hidden;
+}
+
+.advanced-analysis-header {
+    padding: 1.5rem 2rem;
+    background: rgba(10, 21, 37, 0.8);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    backdrop-filter: blur(10px);
+    
+    h1 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #ffffff;
+        text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+    }
+    
+    p {
+        margin: 0.5rem 0 0 0;
+        font-size: 0.9rem;
+        color: #8892b0;
+        letter-spacing: 0.05em;
+    }
+}
+
+.advanced-analysis-iframe-wrapper {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.advanced-analysis-iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .advanced-analysis-header {
+        padding: 1rem 1.5rem;
+        
+        h1 {
+            font-size: 1.5rem;
+        }
+        
+        p {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .advanced-analysis-header {
+        padding: 0.75rem 1rem;
+        
+        h1 {
+            font-size: 1.3rem;
+        }
+        
+        p {
+            font-size: 0.75rem;
+        }
+    }
+}
