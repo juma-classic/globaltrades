@@ -6,7 +6,7 @@
 
 class TurboSpeedAIBot {
     constructor() {
-        this.appId = '68794'; // Your App ID for Turbo Speed AI Bot
+        this.appId = '117918'; // Your App ID for Turbo Speed AI Bot
         this.smartAPI = null; // Will use existing Smart Analysis API connection
         this.isActive = false;
         this.callbacks = {};

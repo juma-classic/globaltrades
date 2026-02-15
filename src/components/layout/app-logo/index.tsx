@@ -7,20 +7,20 @@ export const AppLogo = () => {
 
     if (!isDesktop) {
         return (
-            <a href={standalone_routes.traders_hub} className='app-header__logo tradermaster-logo mobile-logo'>
-                <span className='tradermaster-text'>TM</span>
+            <a href={standalone_routes.traders_hub} className='app-header__logo globaltrades-logo mobile-logo'>
+                <span className='globaltrades-text'>GT</span>
             </a>
         );
     }
 
     return (
         <a
-            href='https://www.tradermaster.site/'
+            href='https://www.globaltrades.site/'
             target='_blank'
             rel='noopener noreferrer'
-            className='app-header__logo tradermaster-logo'
+            className='app-header__logo globaltrades-logo'
         >
-            <span className='tradermaster-text'>TRADER MASTER</span>
+            <span className='globaltrades-text'>GLOBALTRADES</span>
         </a>
     );
 };

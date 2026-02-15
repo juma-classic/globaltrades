@@ -91,7 +91,7 @@ const router = createBrowserRouter(
             element={
                 <Suspense
                     fallback={
-                        <ChunkLoader message={localize('Welcome to Trader Master connecting to the server...')} />
+                        <ChunkLoader message={localize('Welcome to GLOBALTRADES connecting to the server...')} />
                     }
                 >
                     <TranslationProvider defaultLang='EN' i18nInstance={i18nInstance}>

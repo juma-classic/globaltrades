@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const YOUR_APP_ID = '68794'; // Your app_id from src/config/api-config.ts
+const YOUR_APP_ID = '117918'; // Your app_id from src/config/api-config.ts
 
 // Files to modify
 const files = [

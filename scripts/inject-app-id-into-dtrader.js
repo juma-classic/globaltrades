@@ -9,7 +9,7 @@ const fs = require('fs');
 const path = require('path');
 
 // YOUR APP ID HERE
-const YOUR_APP_ID = '68794'; // Replace with your actual app_id
+const YOUR_APP_ID = '117918'; // Replace with your actual app_id
 const DERIV_DEFAULT_APP_ID = '16929'; // Deriv's default app_id
 
 const dtraderDir = path.join(__dirname, '../public/deriv-dtrader.vercel.app');

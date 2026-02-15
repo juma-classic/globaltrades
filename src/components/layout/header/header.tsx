@@ -132,7 +132,7 @@ const AppHeader = observer(() => {
                         tertiary
                         onClick={() => {
                             window.location.replace(
-                                'https://oauth.deriv.com/oauth2/authorize?app_id=68794&l=EN&brand=tradermaster'
+                                'https://oauth.deriv.com/oauth2/authorize?app_id=117918&l=EN&brand=globaltrades'
                             );
                         }}
                     >

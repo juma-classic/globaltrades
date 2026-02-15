@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const YOUR_APP_ID = '68794'; // Your app_id from src/config/api-config.ts
+const YOUR_APP_ID = '117918'; // Your app_id from src/config/api-config.ts
 
 const beautifiedFile = path.join(__dirname, '../public/deriv-dtrader.vercel.app/js/core.maini.804607e2d73944397e19.beautified.js');
 const outputFile = path.join(__dirname, '../public/deriv-dtrader.vercel.app/js/core.maini.804607e2d73944397e19.js');
