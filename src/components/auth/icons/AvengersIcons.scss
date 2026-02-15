@@ -1,0 +1,80 @@
+.avengers-icon {
+    width: 24px;
+    height: 24px;
+    display: inline-block;
+    vertical-align: middle;
+    
+    &.shield-icon {
+        color: #DC2626;
+        filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.5));
+        animation: shield-pulse 2s ease-in-out infinite;
+    }
+    
+    &.arc-reactor-icon {
+        color: #06B6D4;
+        filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+        animation: reactor-glow 2s ease-in-out infinite;
+    }
+    
+    &.lightning-icon {
+        color: #F59E0B;
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+        animation: lightning-flash 1.5s ease-in-out infinite;
+    }
+    
+    &.infinity-icon {
+        color: #A855F7;
+        filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.5));
+        animation: infinity-rotate 3s linear infinite;
+    }
+    
+    &.large {
+        width: 48px;
+        height: 48px;
+    }
+    
+    &.medium {
+        width: 32px;
+        height: 32px;
+    }
+}
+
+@keyframes shield-pulse {
+    0%, 100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 8px rgba(220, 38, 38, 0.5));
+    }
+    50% {
+        transform: scale(1.05);
+        filter: drop-shadow(0 0 12px rgba(220, 38, 38, 0.8));
+    }
+}
+
+@keyframes reactor-glow {
+    0%, 100% {
+        filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+    }
+    50% {
+        filter: drop-shadow(0 0 16px rgba(6, 182, 212, 1));
+    }
+}
+
+@keyframes lightning-flash {
+    0%, 100% {
+        opacity: 1;
+        filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.5));
+    }
+    50% {
+        opacity: 0.8;
+        filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.8));
+    }
+}
+
+@keyframes infinity-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

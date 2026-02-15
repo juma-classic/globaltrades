@@ -1,0 +1,42 @@
+.api-token-login-nav-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    background: transparent;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    color: #667eea;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    svg {
+        flex-shrink: 0;
+    }
+
+    &:hover {
+        background: #667eea;
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgb(102 126 234 / 30%);
+    }
+
+    &.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-color: transparent;
+    }
+}
+
+@media (width <= 768px) {
+    .api-token-login-nav-button {
+        padding: 8px 12px;
+        font-size: 12px;
+
+        span {
+            display: none;
+        }
+    }
+}

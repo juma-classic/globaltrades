@@ -1,0 +1,232 @@
+.copytrading-icon {
+    width: 32px;
+    height: 32px;
+    display: inline-block;
+    vertical-align: middle;
+    
+    &.new-copytrading-icon {
+        filter: drop-shadow(0 0 8px rgba(6, 182, 212, 0.6));
+        
+        .core-pulse {
+            animation: core-pulse 2s ease-in-out infinite;
+        }
+        
+        .outer-ring {
+            animation: ring-rotate 4s linear infinite;
+            transform-origin: center;
+        }
+        
+        .orbit-particle {
+            animation: orbit 3s linear infinite;
+            transform-origin: 24px 24px;
+            
+            &.particle-1 {
+                animation-delay: 0s;
+            }
+            
+            &.particle-2 {
+                animation-delay: 0.75s;
+            }
+            
+            &.particle-3 {
+                animation-delay: 1.5s;
+            }
+            
+            &.particle-4 {
+                animation-delay: 2.25s;
+            }
+        }
+        
+        .energy-beam {
+            animation: beam-pulse 2s ease-in-out infinite;
+            
+            &.beam-1 {
+                animation-delay: 0s;
+            }
+            
+            &.beam-2 {
+                animation-delay: 0.5s;
+            }
+            
+            &.beam-3 {
+                animation-delay: 1s;
+            }
+            
+            &.beam-4 {
+                animation-delay: 1.5s;
+            }
+        }
+        
+        .inner-gear {
+            animation: gear-rotate-reverse 6s linear infinite;
+            transform-origin: 24px 24px;
+        }
+    }
+    
+    &.classic-copytrading-icon {
+        filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+        
+        .data-line {
+            animation: data-flow 2s ease-in-out infinite;
+            
+            &.line-1 {
+                animation-delay: 0s;
+            }
+            
+            &.line-2 {
+                animation-delay: 0.3s;
+            }
+            
+            &.line-3 {
+                animation-delay: 0.6s;
+            }
+            
+            &.line-4 {
+                animation-delay: 0.9s;
+            }
+        }
+        
+        .copy-indicator {
+            animation: indicator-bounce 1.5s ease-in-out infinite;
+        }
+        
+        .mechanical-gear {
+            transform-origin: center;
+            
+            &.gear-1 {
+                animation: gear-rotate 4s linear infinite;
+            }
+            
+            &.gear-2 {
+                animation: gear-rotate-reverse 4s linear infinite;
+            }
+        }
+        
+        .flow-arrow {
+            animation: arrow-flow 1.5s ease-in-out infinite;
+        }
+    }
+}
+
+// Animations
+@keyframes core-pulse {
+    0%, 100% {
+        r: 8;
+        opacity: 1;
+    }
+    50% {
+        r: 10;
+        opacity: 0.8;
+    }
+}
+
+@keyframes ring-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes orbit {
+    0% {
+        transform: rotate(0deg) translateX(16px) rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg) translateX(16px) rotate(-360deg);
+    }
+}
+
+@keyframes beam-pulse {
+    0%, 100% {
+        opacity: 0.3;
+        stroke-width: 1;
+    }
+    50% {
+        opacity: 1;
+        stroke-width: 3;
+    }
+}
+
+@keyframes gear-rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes gear-rotate-reverse {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes data-flow {
+    0%, 100% {
+        opacity: 0.4;
+        stroke-width: 2;
+    }
+    50% {
+        opacity: 1;
+        stroke-width: 3;
+    }
+}
+
+@keyframes indicator-bounce {
+    0%, 100% {
+        transform: translateY(0) scale(1);
+    }
+    50% {
+        transform: translateY(-3px) scale(1.1);
+    }
+}
+
+@keyframes arrow-flow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translateY(-2px);
+    }
+}
+
+// Hover effects
+.copytrading-plus__tab:hover {
+    .new-copytrading-icon {
+        .core-pulse {
+            animation-duration: 1s;
+        }
+        
+        .outer-ring {
+            animation-duration: 2s;
+        }
+        
+        .orbit-particle {
+            animation-duration: 1.5s;
+        }
+    }
+    
+    .classic-copytrading-icon {
+        .mechanical-gear {
+            &.gear-1 {
+                animation-duration: 2s;
+            }
+            
+            &.gear-2 {
+                animation-duration: 2s;
+            }
+        }
+        
+        .data-line {
+            animation-duration: 1s;
+        }
+    }
+}

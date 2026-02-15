@@ -1,0 +1,168 @@
+.copytrading-plus {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(135deg, #0f1419 0%, #1a2332 100%);
+    position: relative;
+
+    &__tabs {
+        display: flex;
+        gap: 1rem;
+        padding: 1.5rem;
+        background: rgba(26, 35, 50, 0.8);
+        border-bottom: 2px solid rgba(6, 182, 212, 0.2);
+        backdrop-filter: blur(10px);
+        position: relative;
+        z-index: 10;
+    }
+
+    &__tab {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, rgba(30, 58, 138, 0.3), rgba(30, 64, 175, 0.3));
+        border: 2px solid rgba(6, 182, 212, 0.3);
+        border-radius: 12px;
+        color: #94a3b8;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+
+        .copytrading-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .tab-badge {
+            padding: 2px 8px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            animation: pulse-badge 2s infinite;
+        }
+
+        &:hover:not(.active) {
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.4), rgba(59, 130, 246, 0.4));
+            border-color: rgba(6, 182, 212, 0.5);
+            color: #cbd5e1;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+
+            .copytrading-icon {
+                transform: scale(1.1);
+            }
+        }
+
+        &.active {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+            border-color: #06b6d4;
+            color: #fff;
+            box-shadow: 
+                0 4px 20px rgba(6, 182, 212, 0.4),
+                0 0 30px rgba(6, 182, 212, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+            .copytrading-icon {
+                transform: scale(1.15);
+            }
+
+            &::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.2),
+                    transparent
+                );
+                animation: shine 2s infinite;
+            }
+        }
+
+        &:active {
+            transform: translateY(0);
+        }
+    }
+
+    &__content {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        min-height: calc(100vh - 100px);
+        overflow: auto;
+        position: relative;
+        
+        // Ensure child components fill the space
+        > * {
+            min-height: 100%;
+            width: 100%;
+        }
+    }
+}
+
+@keyframes pulse-badge {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 8px rgba(102, 126, 234, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 0 16px rgba(102, 126, 234, 0.6);
+    }
+}
+
+@keyframes shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+// Responsive design
+@media (width <= 768px) {
+    .copytrading-plus {
+        &__tabs {
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+
+        &__tab {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+            gap: 0.5rem;
+
+            .copytrading-icon {
+                width: 28px;
+                height: 28px;
+            }
+
+            span:not(.tab-badge) {
+                display: none;
+            }
+        }
+
+        &__content {
+            min-height: calc(100vh - 80px);
+        }
+    }
+}
+
+@media (width <= 480px) {
+    .copytrading-plus {
+        &__content {
+            min-height: calc(100vh - 70px);
+        }
+    }
+}
