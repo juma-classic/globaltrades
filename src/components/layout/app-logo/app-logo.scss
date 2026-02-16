@@ -9,6 +9,17 @@
         text-decoration: none;
 
         &.globaltrades-logo {
+            .globaltrades-logo-wrapper {
+                position: relative;
+                display: inline-block;
+                cursor: pointer;
+                user-select: none;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                -webkit-tap-highlight-color: transparent;
+            }
+
             .globaltrades-text {
                 font-size: 1.25rem;
                 font-weight: 900;
@@ -23,6 +34,19 @@
                     background: linear-gradient(135deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
                     -webkit-text-fill-color: transparent;
                     background-clip: text;
+                }
+            }
+
+            .press-progress-bar {
+                animation: pulse-glow 0.5s ease-in-out infinite alternate;
+            }
+
+            @keyframes pulse-glow {
+                from {
+                    box-shadow: 0 0 10px rgba(0, 212, 255, 0.8);
+                }
+                to {
+                    box-shadow: 0 0 20px rgba(0, 255, 136, 1);
                 }
             }
 
