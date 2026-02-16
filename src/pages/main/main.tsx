@@ -153,21 +153,77 @@ const SignalsScannerIcon = () => (
 
 const DTraderExternalIcon = () => (
     <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
-        {/* Trading platform */}
-        <rect x='2' y='4' width='20' height='16' rx='2' stroke='currentColor' strokeWidth='1.5' fill='none' />
-        <rect x='2' y='4' width='20' height='16' rx='2' fill='#10b981' opacity='0.1' />
+        <defs>
+            <radialGradient id="mysticalGlowSmall" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor="#FFD700" stopOpacity="0.8" />
+                <stop offset="100%" stopColor="#4ECDC4" stopOpacity="0" />
+            </radialGradient>
+            <linearGradient id="energyGradSmall" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#FFD700" />
+                <stop offset="50%" stopColor="#FF6B35" />
+                <stop offset="100%" stopColor="#4ECDC4" />
+            </linearGradient>
+        </defs>
         
-        {/* Chart */}
-        <path d='M5 8h14M5 12h14M5 16h14' stroke='currentColor' strokeWidth='0.5' opacity='0.2' />
-        <rect x='6' y='10' width='1.5' height='5' fill='#10b981' rx='0.3' />
-        <rect x='10' y='9' width='1.5' height='6' fill='#ef4444' rx='0.3' />
-        <rect x='14' y='11' width='1.5' height='4' fill='#10b981' rx='0.3' />
-        <rect x='18' y='8' width='1.5' height='7' fill='#ef4444' rx='0.3' />
-        <path d='M5 13L9 10L13 11L17 8L21 9' stroke='#10b981' strokeWidth='1.5' strokeLinecap='round' opacity='0.8' />
+        {/* Mystical circle background */}
+        <circle cx='12' cy='12' r='10' fill='url(#mysticalGlowSmall)' opacity='0.2' />
         
-        {/* External link indicator */}
-        <circle cx='19' cy='5' r='3' fill='#3b82f6' />
-        <path d='M17.5 5h3M19 3.5v3' stroke='#fff' strokeWidth='1.2' strokeLinecap='round' />
+        {/* Outer rotating ring */}
+        <circle cx='12' cy='12' r='9' stroke='url(#energyGradSmall)' strokeWidth='1' fill='none' opacity='0.6'>
+            <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 12 12"
+                to="360 12 12"
+                dur="8s"
+                repeatCount="indefinite"
+            />
+        </circle>
+        
+        {/* Inner ring */}
+        <circle cx='12' cy='12' r='7' stroke='url(#energyGradSmall)' strokeWidth='0.8' fill='none' opacity='0.4'>
+            <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 12 12"
+                to="-360 12 12"
+                dur="6s"
+                repeatCount="indefinite"
+            />
+        </circle>
+        
+        {/* Central gear */}
+        <g transform="translate(12, 12)">
+            <line x1="-3" y1="0" x2="3" y2="0" stroke="#C0C0C0" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="0" y1="-3" x2="0" y2="3" stroke="#C0C0C0" strokeWidth="1.5" strokeLinecap="round" />
+            <line x1="-2" y1="-2" x2="2" y2="2" stroke="#C0C0C0" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+            <line x1="-2" y1="2" x2="2" y2="-2" stroke="#C0C0C0" strokeWidth="1" strokeLinecap="round" opacity="0.6" />
+            <circle cx="0" cy="0" r="2" fill="#FFD700">
+                <animate attributeName="r" values="2;2.5;2" dur="2s" repeatCount="indefinite" />
+            </circle>
+            <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 0 0"
+                to="360 0 0"
+                dur="4s"
+                repeatCount="indefinite"
+            />
+        </g>
+        
+        {/* Mystical runes */}
+        <circle cx="12" cy="5" r="1" fill="#FFD700" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="19" cy="12" r="1" fill="#4ECDC4" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="0.5s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="12" cy="19" r="1" fill="#FF6B35" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="1s" repeatCount="indefinite" />
+        </circle>
+        <circle cx="5" cy="12" r="1" fill="#4ECDC4" opacity="0.8">
+            <animate attributeName="opacity" values="0.8;1;0.8" dur="2s" begin="1.5s" repeatCount="indefinite" />
+        </circle>
     </svg>
 );
 

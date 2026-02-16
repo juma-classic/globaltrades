@@ -7,10 +7,10 @@ import {
 } from '@deriv/quill-icons/Legacy';
 import {
     DerivProductBrandLightDerivBotLogoWordmarkIcon as DerivBotLogo,
-    DerivProductBrandLightDerivTraderLogoWordmarkIcon as DerivTraderLogo,
     PartnersProductBrandLightSmarttraderLogoWordmarkIcon as SmarttraderLogo,
 } from '@deriv/quill-icons/Logo';
 import { localize } from '@deriv-com/translations';
+import { MysticalTraderIcon } from '@/components/icons/MysticalTraderIcon';
 
 const CopyTradingIcon = () => (
     <svg width='20' height='20' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
@@ -75,10 +75,10 @@ export type TAccount = {
 export const platformsConfig: PlatformsConfig[] = [
     {
         active: false,
-        buttonIcon: <DerivTraderLogo height={25} width={114.97} />,
+        buttonIcon: <MysticalTraderIcon width={114.97} height={25} />,
         description: localize('A whole new trading experience on a powerful yet easy to use platform.'),
         href: standalone_routes.trade,
-        icon: <DerivTraderLogo height={32} width={148} />,
+        icon: <MysticalTraderIcon width={148} height={32} />,
         showInEU: true,
     },
     {
