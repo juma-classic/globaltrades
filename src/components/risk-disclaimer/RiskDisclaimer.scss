@@ -129,46 +129,76 @@
 
     // Responsive adjustments
     @media (max-width: 768px) {
-        bottom: 80px; // Move up to avoid overlapping with mobile navigation
+        bottom: 10px; // Lower position
         left: 10px;
-        right: 10px;
-        max-width: calc(100% - 20px);
+        right: auto;
+        max-width: 280px; // Smaller max width
 
         &__content {
             border-radius: 8px;
         }
 
         &__header {
-            padding: 10px 12px;
+            padding: 8px 10px;
 
             .header-left {
                 .icon {
-                    font-size: 16px;
+                    font-size: 14px;
                 }
 
                 .title {
-                    font-size: 12px;
+                    font-size: 11px;
+                }
+            }
+
+            .header-actions button {
+                width: 20px;
+                height: 20px;
+                font-size: 16px;
+
+                &.btn-close {
+                    font-size: 20px;
                 }
             }
         }
 
         &__body {
-            padding: 12px;
+            padding: 10px;
 
             p {
-                font-size: 12px;
+                font-size: 11px;
+                line-height: 1.5;
             }
         }
 
         &__minimized {
-            padding: 8px 12px;
+            padding: 6px 10px;
+            border-radius: 20px;
 
             .icon {
-                font-size: 14px;
+                font-size: 12px;
             }
 
             .text {
-                font-size: 12px;
+                font-size: 11px;
+            }
+        }
+
+        // Mobile specific: make minimized version even smaller
+        &.mobile.minimized {
+            bottom: 10px;
+            left: 10px;
+            
+            .risk-disclaimer__minimized {
+                padding: 5px 8px;
+                
+                .icon {
+                    font-size: 11px;
+                }
+                
+                .text {
+                    font-size: 10px;
+                }
             }
         }
     }
@@ -176,11 +206,28 @@
     // Ensure it doesn't overlap with important UI elements
     @media (max-height: 600px) {
         bottom: 10px;
-        max-width: 320px;
+        max-width: 280px;
 
         &__body p {
-            font-size: 12px;
-            line-height: 1.5;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+    }
+
+    // Extra small phones
+    @media (max-width: 480px) {
+        max-width: 240px;
+        
+        &__minimized {
+            padding: 5px 8px;
+            
+            .icon {
+                font-size: 11px;
+            }
+            
+            .text {
+                font-size: 10px;
+            }
         }
     }
 }
