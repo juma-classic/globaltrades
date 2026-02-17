@@ -33,6 +33,7 @@ const DTraderIframeExternal = lazy(() => import('../dtrader-iframe-external'));
 const SignalsScannerIframe = lazy(() => import('../signals-scanner-iframe'));
 const CopyTrading = lazy(() => import('../copy-trading'));
 const NewCopyTrading = lazy(() => import('../new-copy-trading'));
+const DCircles = lazy(() => import('../dcircles/DCircles'));
 const CopytradingPlus = lazy(() => import('../copytrading-plus'));
 
 const DashboardIcon = () => (
@@ -76,6 +77,28 @@ const ChartsIcon = () => (
         <circle cx='13' cy='14' r='1.5' fill='#ffd700' />
         <circle cx='18' cy='7' r='1.5' fill='#ffd700' />
         <path d='M18 7v3m0 0h-3m3 0l-5 7' stroke='currentColor' strokeWidth='1.5' strokeLinecap='round' opacity='0.5' />
+    </svg>
+);
+
+const DCirclesIcon = () => (
+    <svg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        {/* Main D shape */}
+        <path
+            d='M8 6h4c3.314 0 6 2.686 6 6s-2.686 6-6 6H8V6z'
+            stroke='currentColor'
+            strokeWidth='2'
+            fill='none'
+            strokeLinecap='round'
+            strokeLinejoin='round'
+        />
+        {/* Inner circles */}
+        <circle cx='11' cy='9' r='1.5' fill='#ffd700' />
+        <circle cx='13' cy='12' r='1.5' fill='#00ff88' />
+        <circle cx='11' cy='15' r='1.5' fill='#ff6b6b' />
+        {/* Orbiting particles */}
+        <circle cx='16' cy='8' r='1' fill='currentColor' opacity='0.6' />
+        <circle cx='17' cy='12' r='1' fill='currentColor' opacity='0.6' />
+        <circle cx='16' cy='16' r='1' fill='currentColor' opacity='0.6' />
     </svg>
 );
 
@@ -2092,6 +2115,20 @@ const AppWrapper = observer(() => {
                             }
                             id='id-bot-builder'
                         />
+                        {/* DCIRCLES TAB */}
+                        <div
+                            label={
+                                <>
+                                    <DCirclesIcon />
+                                    <Localize i18n_default_text='DCircles' />
+                                </>
+                            }
+                            id='id-dcircles'
+                        >
+                            <Suspense fallback={<ChunkLoader message={localize('Please wait, loading DCircles...')} />}>
+                                <DCircles />
+                            </Suspense>
+                        </div>
                         {/* CHARTS TAB */}
                         <div
                             label={
