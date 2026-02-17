@@ -21,167 +21,165 @@ export const MysticalTraderIcon: React.FC<MysticalTraderIconProps> = ({
                 className="mystical-svg"
             >
                 <defs>
-                    {/* Mystical glow gradient */}
-                    <radialGradient id="mysticalGlow" cx="50%" cy="50%" r="50%">
-                        <stop offset="0%" stopColor="#FFD700" stopOpacity="0.8" />
-                        <stop offset="50%" stopColor="#FF6B35" stopOpacity="0.4" />
-                        <stop offset="100%" stopColor="#4ECDC4" stopOpacity="0" />
-                    </radialGradient>
-                    
-                    {/* Energy gradient */}
-                    <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" stopColor="#FFD700" />
-                        <stop offset="50%" stopColor="#FF6B35" />
-                        <stop offset="100%" stopColor="#4ECDC4" />
+                    {/* Modern gradient for D shape */}
+                    <linearGradient id="dGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#0066FF" />
+                        <stop offset="50%" stopColor="#00A8FF" />
+                        <stop offset="100%" stopColor="#00D4FF" />
                     </linearGradient>
+                    
+                    {/* Glow effect */}
+                    <radialGradient id="dGlow" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stopColor="#00D4FF" stopOpacity="0.6" />
+                        <stop offset="100%" stopColor="#0066FF" stopOpacity="0" />
+                    </radialGradient>
 
-                    {/* Mechanical gradient */}
-                    <linearGradient id="mechanicalGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                        <stop offset="0%" stopColor="#C0C0C0" />
-                        <stop offset="50%" stopColor="#E8E8E8" />
-                        <stop offset="100%" stopColor="#A0A0A0" />
+                    {/* Chart line gradient */}
+                    <linearGradient id="chartGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#00FF88" />
+                        <stop offset="100%" stopColor="#00D4FF" />
                     </linearGradient>
                 </defs>
 
-                {/* Outer mystical circle */}
-                <g className="outer-ring">
-                    <circle 
-                        cx="16" 
-                        cy="16" 
-                        r="14" 
-                        stroke="url(#energyGradient)" 
-                        strokeWidth="1.5" 
-                        fill="none"
-                        className="ring-1"
+                {/* Background glow */}
+                <circle 
+                    cx="16" 
+                    cy="16" 
+                    r="14" 
+                    fill="url(#dGlow)" 
+                    opacity="0.3"
+                    className="d-glow"
+                />
+
+                {/* Main D shape */}
+                <g className="d-shape">
+                    {/* D letter path - clean and bold */}
+                    <path
+                        d="M 6 6 L 6 26 L 16 26 C 22 26 26 22 26 16 C 26 10 22 6 16 6 Z M 9 9 L 16 9 C 20 9 23 12 23 16 C 23 20 20 23 16 23 L 9 23 Z"
+                        fill="url(#dGradient)"
+                        className="d-letter"
                     />
-                    <circle 
-                        cx="16" 
-                        cy="16" 
-                        r="12" 
-                        stroke="url(#energyGradient)" 
-                        strokeWidth="1" 
+                    
+                    {/* Inner glow */}
+                    <path
+                        d="M 9 9 L 16 9 C 20 9 23 12 23 16 C 23 20 20 23 16 23 L 9 23 Z"
                         fill="none"
-                        className="ring-2"
+                        stroke="#00D4FF"
+                        strokeWidth="0.5"
                         opacity="0.6"
+                        className="d-inner-glow"
                     />
                 </g>
 
-                {/* Rotating mechanical gears */}
-                <g className="gear-system">
-                    {/* Main central gear */}
-                    <g className="main-gear" transform="translate(16, 16)">
-                        {[...Array(8)].map((_, i) => {
-                            const angle = (i * 45) * Math.PI / 180;
-                            const x1 = Math.cos(angle) * 6;
-                            const y1 = Math.sin(angle) * 6;
-                            const x2 = Math.cos(angle) * 9;
-                            const y2 = Math.sin(angle) * 9;
-                            return (
-                                <line
-                                    key={i}
-                                    x1={x1}
-                                    y1={y1}
-                                    x2={x2}
-                                    y2={y2}
-                                    stroke="url(#mechanicalGradient)"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                />
-                            );
-                        })}
-                        <circle cx="0" cy="0" r="5" fill="url(#mechanicalGradient)" />
-                        <circle cx="0" cy="0" r="2" fill="#FFD700" className="core-glow" />
-                    </g>
+                {/* Trading chart line inside D */}
+                <g className="chart-line">
+                    <polyline
+                        points="11,16 13,14 15,17 17,13 19,15 21,12"
+                        stroke="url(#chartGradient)"
+                        strokeWidth="1.5"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="chart-path"
+                    />
+                    
+                    {/* Data points */}
+                    {[
+                        { x: 11, y: 16 },
+                        { x: 13, y: 14 },
+                        { x: 15, y: 17 },
+                        { x: 17, y: 13 },
+                        { x: 19, y: 15 },
+                        { x: 21, y: 12 }
+                    ].map((point, i) => (
+                        <circle
+                            key={i}
+                            cx={point.x}
+                            cy={point.y}
+                            r="1"
+                            fill="#00FF88"
+                            className={`data-point data-point-${i + 1}`}
+                        />
+                    ))}
+                </g>
 
-                    {/* Orbiting particles */}
-                    {[0, 120, 240].map((offset, i) => (
+                {/* Orbiting particles around D */}
+                <g className="particles">
+                    {[0, 120, 240].map((angle, i) => (
                         <circle
                             key={i}
                             cx="16"
                             cy="16"
-                            r="1.5"
-                            fill="#4ECDC4"
+                            r="1.2"
+                            fill="#00D4FF"
                             className={`particle particle-${i + 1}`}
                             style={{ transformOrigin: '16px 16px' }}
                         />
                     ))}
                 </g>
 
-                {/* Mystical runes/symbols */}
-                <g className="runes">
-                    {[0, 90, 180, 270].map((angle, i) => {
-                        const rad = angle * Math.PI / 180;
-                        const x = 16 + Math.cos(rad) * 11;
-                        const y = 16 + Math.sin(rad) * 11;
-                        return (
-                            <g key={i} className={`rune rune-${i + 1}`}>
-                                <circle cx={x} cy={y} r="1.5" fill="#FFD700" opacity="0.8" />
-                                <circle cx={x} cy={y} r="2.5" stroke="#FFD700" strokeWidth="0.5" fill="none" opacity="0.4" />
-                            </g>
-                        );
-                    })}
-                </g>
-
-                {/* Energy arcs */}
-                <g className="energy-arcs">
-                    <path
-                        d="M 8 16 Q 12 8, 16 16"
-                        stroke="#4ECDC4"
-                        strokeWidth="1"
-                        fill="none"
-                        opacity="0.6"
-                        className="arc-1"
-                    />
-                    <path
-                        d="M 16 16 Q 20 24, 24 16"
-                        stroke="#FF6B35"
-                        strokeWidth="1"
-                        fill="none"
-                        opacity="0.6"
-                        className="arc-2"
-                    />
-                </g>
-
-                {/* Text: DTRADER */}
+                {/* Text: TRADER */}
                 <text
                     x="38"
                     y="20"
                     fontFamily="'Inter', 'Segoe UI', sans-serif"
                     fontSize="14"
                     fontWeight="700"
-                    fill="url(#energyGradient)"
+                    fill="url(#dGradient)"
                     className="trader-text"
                 >
-                    DTRADER
+                    TRADER
                 </text>
 
-                {/* Decorative mechanical elements around text */}
-                <g className="text-decoration">
-                    <line x1="36" y1="24" x2="110" y2="24" stroke="url(#mechanicalGradient)" strokeWidth="0.5" opacity="0.4" />
-                    <line x1="36" y1="10" x2="110" y2="10" stroke="url(#mechanicalGradient)" strokeWidth="0.5" opacity="0.4" />
+                {/* Decorative elements */}
+                <g className="decorations">
+                    {/* Top line with pulse */}
+                    <line 
+                        x1="36" 
+                        y1="10" 
+                        x2="95" 
+                        y2="10" 
+                        stroke="url(#chartGradient)" 
+                        strokeWidth="0.5" 
+                        opacity="0.5"
+                        className="deco-line-top"
+                    />
                     
-                    {/* Small gears near text */}
-                    <g className="small-gear-1" transform="translate(112, 12)">
-                        <circle r="3" fill="none" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
-                        <line x1="-2" y1="0" x2="2" y2="0" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
-                        <line x1="0" y1="-2" x2="0" y2="2" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
-                    </g>
+                    {/* Bottom line with pulse */}
+                    <line 
+                        x1="36" 
+                        y1="24" 
+                        x2="95" 
+                        y2="24" 
+                        stroke="url(#chartGradient)" 
+                        strokeWidth="0.5" 
+                        opacity="0.5"
+                        className="deco-line-bottom"
+                    />
                     
-                    <g className="small-gear-2" transform="translate(112, 20)">
-                        <circle r="2.5" fill="none" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
-                        <line x1="-1.5" y1="0" x2="1.5" y2="0" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
-                        <line x1="0" y1="-1.5" x2="0" y2="1.5" stroke="url(#mechanicalGradient)" strokeWidth="0.8" />
+                    {/* Small chart indicators */}
+                    <g className="mini-chart" transform="translate(100, 16)">
+                        <polyline
+                            points="0,2 2,0 4,3 6,-1"
+                            stroke="#00FF88"
+                            strokeWidth="1"
+                            fill="none"
+                            strokeLinecap="round"
+                            className="mini-chart-line"
+                        />
                     </g>
                 </g>
 
-                {/* Mystical portal effect behind icon */}
+                {/* Pulse ring around D */}
                 <circle 
                     cx="16" 
                     cy="16" 
-                    r="15" 
-                    fill="url(#mysticalGlow)" 
-                    opacity="0.2"
-                    className="portal-glow"
+                    r="13" 
+                    stroke="url(#dGradient)" 
+                    strokeWidth="0.5" 
+                    fill="none"
+                    opacity="0.4"
+                    className="pulse-ring"
                 />
             </svg>
         </div>

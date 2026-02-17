@@ -10,196 +10,237 @@
     }
 
     &.animated {
-        /* Outer ring rotation */
-        .ring-1 {
-            animation: rotateClockwise 8s linear infinite;
-            transform-origin: 16px 16px;
+        /* D-shape outer glow */
+        .d-outer-glow {
+            animation: d-glow-pulse 3s ease-in-out infinite;
         }
 
-        .ring-2 {
-            animation: rotateCounterClockwise 6s linear infinite;
-            transform-origin: 16px 16px;
+        /* D-shape main body */
+        .d-main {
+            animation: d-body-pulse 2s ease-in-out infinite;
         }
 
-        /* Main gear rotation */
-        .main-gear {
-            animation: rotateClockwise 4s linear infinite;
+        /* Inner gradient glow */
+        .d-inner-glow {
+            animation: inner-glow-shift 4s ease-in-out infinite;
         }
 
-        /* Orbiting particles */
-        .particle-1 {
-            animation: orbit 3s linear infinite;
+        /* Chart line animation */
+        .chart-line {
+            animation: chart-pulse 2.5s ease-in-out infinite;
         }
 
-        .particle-2 {
-            animation: orbit 3s linear infinite;
-            animation-delay: -1s;
+        /* Candlestick animations */
+        .candle-1 {
+            animation: candle-grow 2s ease-in-out infinite;
         }
 
-        .particle-3 {
-            animation: orbit 3s linear infinite;
-            animation-delay: -2s;
-        }
-
-        /* Core glow pulse */
-        .core-glow {
-            animation: corePulse 2s ease-in-out infinite;
-        }
-
-        /* Runes pulsing */
-        .rune-1 {
-            animation: runePulse 2s ease-in-out infinite;
-        }
-
-        .rune-2 {
-            animation: runePulse 2s ease-in-out infinite;
+        .candle-2 {
+            animation: candle-grow 2s ease-in-out infinite;
             animation-delay: -0.5s;
         }
 
-        .rune-3 {
-            animation: runePulse 2s ease-in-out infinite;
+        .candle-3 {
+            animation: candle-grow 2s ease-in-out infinite;
             animation-delay: -1s;
         }
 
-        .rune-4 {
-            animation: runePulse 2s ease-in-out infinite;
-            animation-delay: -1.5s;
+        /* Trend arrow */
+        .trend-arrow {
+            animation: arrow-bounce 1.5s ease-in-out infinite;
         }
 
-        /* Energy arcs */
-        .arc-1 {
-            animation: arcFlow 3s ease-in-out infinite;
+        /* Trading particles */
+        .trade-particle-1 {
+            animation: particle-float 3s ease-in-out infinite;
         }
 
-        .arc-2 {
-            animation: arcFlow 3s ease-in-out infinite;
-            animation-delay: -1.5s;
+        .trade-particle-2 {
+            animation: particle-float 3s ease-in-out infinite;
+            animation-delay: -1s;
         }
 
-        /* Small gears */
-        .small-gear-1 {
-            animation: rotateCounterClockwise 3s linear infinite;
+        .trade-particle-3 {
+            animation: particle-float 3s ease-in-out infinite;
+            animation-delay: -2s;
         }
 
-        .small-gear-2 {
-            animation: rotateClockwise 2.5s linear infinite;
+        /* Price ticker */
+        .price-ticker {
+            animation: ticker-scroll 4s linear infinite;
         }
 
-        /* Portal glow */
-        .portal-glow {
-            animation: portalPulse 4s ease-in-out infinite;
+        /* Market pulse indicators */
+        .pulse-indicator-1 {
+            animation: market-pulse 2s ease-in-out infinite;
         }
 
-        /* Text shimmer */
-        .trader-text {
-            animation: textShimmer 3s ease-in-out infinite;
+        .pulse-indicator-2 {
+            animation: market-pulse 2s ease-in-out infinite;
+            animation-delay: -0.7s;
+        }
+
+        .pulse-indicator-3 {
+            animation: market-pulse 2s ease-in-out infinite;
+            animation-delay: -1.4s;
+        }
+
+        /* D letter highlight */
+        .d-highlight {
+            animation: highlight-sweep 3s ease-in-out infinite;
+        }
+
+        /* Background grid */
+        .grid-lines {
+            animation: grid-fade 4s ease-in-out infinite;
         }
     }
 }
 
 /* Animations */
-@keyframes rotateClockwise {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes rotateCounterClockwise {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(-360deg);
-    }
-}
-
-@keyframes orbit {
-    0% {
-        transform: rotate(0deg) translateX(11px) rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg) translateX(11px) rotate(-360deg);
-    }
-}
-
-@keyframes corePulse {
+@keyframes d-glow-pulse {
     0%, 100% {
-        opacity: 1;
-        r: 2;
+        opacity: 0.3;
+        filter: blur(4px);
     }
     50% {
         opacity: 0.6;
-        r: 2.5;
+        filter: blur(6px);
     }
 }
 
-@keyframes runePulse {
+@keyframes d-body-pulse {
     0%, 100% {
-        opacity: 0.8;
+        opacity: 1;
         transform: scale(1);
     }
     50% {
-        opacity: 1;
-        transform: scale(1.3);
+        opacity: 0.95;
+        transform: scale(1.02);
     }
 }
 
-@keyframes arcFlow {
+@keyframes inner-glow-shift {
     0%, 100% {
-        opacity: 0.3;
-        stroke-dasharray: 20;
-        stroke-dashoffset: 0;
-    }
-    50% {
-        opacity: 0.8;
-        stroke-dasharray: 20;
-        stroke-dashoffset: 40;
-    }
-}
-
-@keyframes portalPulse {
-    0%, 100% {
-        opacity: 0.1;
-        transform: scale(1);
-    }
-    50% {
-        opacity: 0.3;
-        transform: scale(1.1);
-    }
-}
-
-@keyframes textShimmer {
-    0%, 100% {
-        opacity: 1;
+        opacity: 0.4;
     }
     50% {
         opacity: 0.7;
     }
 }
 
+@keyframes chart-pulse {
+    0%, 100% {
+        stroke-width: 1.5;
+        opacity: 0.8;
+    }
+    50% {
+        stroke-width: 2;
+        opacity: 1;
+    }
+}
+
+@keyframes candle-grow {
+    0%, 100% {
+        transform: scaleY(1);
+        opacity: 0.9;
+    }
+    50% {
+        transform: scaleY(1.15);
+        opacity: 1;
+    }
+}
+
+@keyframes arrow-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes particle-float {
+    0% {
+        transform: translateY(0) scale(1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-10px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-20px);
+    }
+}
+
+@keyframes market-pulse {
+    0%, 100% {
+        r: 1;
+        opacity: 0.8;
+    }
+    50% {
+        r: 1.5;
+        opacity: 1;
+    }
+}
+
+@keyframes highlight-sweep {
+    0%, 100% {
+        opacity: 0.2;
+        transform: translateY(0);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translateY(-2px);
+    }
+}
+
+@keyframes grid-fade {
+    0%, 100% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 0.3;
+    }
+}
+
 /* Hover effects */
 .mystical-trader-icon:hover {
-    .ring-1 {
-        animation-duration: 4s !important;
+    .d-outer-glow {
+        animation-duration: 1.5s !important;
+        opacity: 0.8 !important;
     }
 
-    .ring-2 {
-        animation-duration: 3s !important;
+    .chart-line {
+        stroke-width: 2.5 !important;
+        filter: drop-shadow(0 0 4px #00ff88);
     }
 
-    .main-gear {
-        animation-duration: 2s !important;
+    .candle-1, .candle-2, .candle-3 {
+        animation-duration: 1s !important;
     }
 
-    .core-glow {
-        filter: drop-shadow(0 0 8px #FFD700);
+    .trend-arrow {
+        transform: translateY(-3px) !important;
+        filter: drop-shadow(0 0 4px #ffd700);
     }
 
-    .portal-glow {
-        opacity: 0.4 !important;
+    .d-highlight {
+        opacity: 0.8 !important;
+    }
+
+    .pulse-indicator-1, .pulse-indicator-2, .pulse-indicator-3 {
+        animation-duration: 1s !important;
     }
 }
 
