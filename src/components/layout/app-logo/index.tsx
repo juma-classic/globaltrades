@@ -141,20 +141,15 @@ export const AppLogo = () => {
 
     if (!isDesktop) {
         return (
-            <a href={standalone_routes.traders_hub} className='app-header__logo globaltrades-logo mobile-logo'>
+            <div className='app-header__logo globaltrades-logo mobile-logo'>
                 {logoContent}
-            </a>
+            </div>
         );
     }
 
     return (
-        <a
-            href='https://www.globaltrades.site/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='app-header__logo globaltrades-logo'
-        >
+        <div className='app-header__logo globaltrades-logo'>
             {logoContent}
-        </a>
+        </div>
     );
 };
