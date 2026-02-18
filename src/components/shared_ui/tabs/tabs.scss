@@ -76,10 +76,11 @@
 
     &__item {
         list-style: none;
-        font-size: 18px;
+        font-size: 12px; /* Changed from 18px to 12px */
         text-align: center;
         white-space: nowrap;
-        color: #fff;
+        color: var(--text-prominent); /* All tabs use prominent color like active state */
+        font-weight: 700; /* All tabs are bold like active state */
         -webkit-touch-callout: none;
         -webkit-tap-highlight-color: transparent;
 
@@ -120,7 +121,7 @@
 
         &:not(.dc-tabs__active) {
             cursor: pointer;
-            color: #fff;
+            /* Removed color override - all tabs now use prominent color and bold weight */
         }
 
         &:not(&--header-fit-content) {

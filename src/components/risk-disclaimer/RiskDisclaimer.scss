@@ -129,7 +129,7 @@
 
     // Responsive adjustments
     @media (max-width: 768px) {
-        bottom: 10px; // Lower position
+        bottom: 55px; // Moved 45px higher (was 10px, now 55px)
         left: 10px;
         right: auto;
         max-width: 280px; // Smaller max width
@@ -186,7 +186,7 @@
 
         // Mobile specific: make minimized version even smaller
         &.mobile.minimized {
-            bottom: 10px;
+            bottom: 55px; // Moved 45px higher (was 10px, now 55px)
             left: 10px;
             
             .risk-disclaimer__minimized {
@@ -205,7 +205,7 @@
 
     // Ensure it doesn't overlap with important UI elements
     @media (max-height: 600px) {
-        bottom: 10px;
+        bottom: 55px; // Moved 45px higher (was 10px, now 55px)
         max-width: 280px;
 
         &__body p {
