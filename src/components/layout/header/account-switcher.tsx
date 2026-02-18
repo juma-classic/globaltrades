@@ -10,6 +10,7 @@ import { useStore } from '@/hooks/useStore';
 import { fakeRealBalanceGenerator } from '@/utils/fake-real-balance-generator';
 import { fakeAccountService } from '@/services/fake-account.service';
 import { waitForDomElement } from '@/utils/dom-observer';
+import { simulationMode } from '@/utils/simulation-mode';
 import { localize } from '@deriv-com/translations';
 import { AccountSwitcher as UIAccountSwitcher, Loader, useDevice } from '@deriv-com/ui';
 import DemoAccounts from './common/demo-accounts';
@@ -92,19 +93,50 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
     const { is_stop_button_visible } = run_panel;
     const has_wallet = Object.keys(accounts).some(id => accounts[id].account_category === 'wallet');
 
+    // Track simulation mode state
+    const [isSimulationActive, setIsSimulationActive] = React.useState(simulationMode.isSimulationActive());
+    const [simulatedBalance, setSimulatedBalance] = React.useState(simulationMode.getBalance());
+
+    // Subscribe to simulation mode changes
+    useEffect(() => {
+        const unsubscribe = simulationMode.subscribe((state) => {
+            setIsSimulationActive(state.isActive);
+            setSimulatedBalance(state.balance);
+        });
+        return unsubscribe;
+    }, []);
+
     const modifiedAccountList = useMemo(() => {
         return accountList?.map(account => {
+            // Check if simulation mode is active
+            const isSimMode = simulationMode.isSimulationActive();
+            
             // Use fake account service to check if this is a fake account
             const isFakeAccount = fakeAccountService.isFakeAccount(account?.loginid || '');
 
-            // Use static balance for fake accounts, API balance for real accounts
+            // Determine which balance to use
             let balance;
-            if (isFakeAccount) {
-                // Static fake balances - no API calls
+            
+            if (isSimMode) {
+                // SIMULATION MODE: Show simulated balance for active account only
+                if (account?.loginid === activeAccount?.loginid) {
+                    const simBalance = simulationMode.getBalance();
+                    balance = addComma(simBalance.toFixed(getDecimalPlaces(account.currency)));
+                    console.log('🎮 Showing simulated balance:', {
+                        loginid: account.loginid,
+                        balance,
+                        isActive: true
+                    });
+                } else {
+                    // For non-active accounts in simulation mode, show 0 or hide them
+                    balance = '0.00';
+                }
+            } else if (isFakeAccount) {
+                // FAKE REAL MODE: Static fake balances
                 balance = fakeAccountService.getFakeAccountBalance(account?.loginid || '');
                 fakeAccountService.logFakeAccountInteraction('balance_fetch', account?.loginid || '', { balance });
             } else {
-                // Real API balance
+                // NORMAL MODE: Real API balance
                 balance = addComma(
                     client.all_accounts_balance?.accounts?.[account?.loginid]?.balance?.toFixed(
                         getDecimalPlaces(account.currency)
@@ -133,7 +165,9 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
         client.all_accounts_balance?.accounts,
         client.website_status?.currencies_config,
         activeAccount?.loginid,
-        activeAccount?.is_virtual, // Add dependency for fake mode detection
+        activeAccount?.is_virtual,
+        isSimulationActive, // Add simulation state as dependency
+        simulatedBalance, // Add simulated balance as dependency
     ]);
     const modifiedCRAccountList = useMemo(() => {
         return modifiedAccountList?.filter(account => account?.loginid?.includes('CR')) ?? [];
@@ -170,10 +204,10 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
     // Check if fake real mode is active AND user is on a demo account
     const isFakeRealMode = fakeAccountService.isFakeRealModeActive() && Boolean(activeAccount?.is_virtual);
 
-    // Swap account lists when fake real mode is active
+    // Swap account lists when fake real mode is active (but NOT when simulation mode is active)
     // In Real tab: Show demo account but disguised with real account ID and US Dollar label
     // Also add fake USDt and LTC accounts
-    const realTabAccounts = isFakeRealMode
+    const realTabAccounts = isFakeRealMode && !isSimulationActive
         ? [
               // Fake US Dollar account (from demo account) - Use original demo balance
               ...(modifiedVRTCRAccountList.length > 0
@@ -259,9 +293,11 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                   trading: {},
               },
           ]
-        : modifiedCRAccountList;
+        : isSimulationActive
+        ? modifiedCRAccountList // In simulation mode, show real CR accounts with simulated balance
+        : modifiedCRAccountList; // Normal mode
 
-    const demoTabAccounts = isFakeRealMode 
+    const demoTabAccounts = isFakeRealMode && !isSimulationActive
         ? [
               // Fake Demo account with random balance over $10,000
               {
@@ -288,10 +324,12 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                   trading: {},
               }
           ]
+        : isSimulationActive
+        ? modifiedVRTCRAccountList // In simulation mode, show real demo accounts with simulated balance
         : modifiedVRTCRAccountList; // Normal demo accounts when fake mode is inactive
 
     // Debug: Log fake accounts when fake mode is active (moved after both variables are declared)
-    if (isFakeRealMode) {
+    if (isFakeRealMode && !isSimulationActive) {
         console.log('🔍 Fake Real Mode Active - CORRECTED BALANCE LOGIC');
         console.log('📊 Real Tab Accounts (using original demo balance):', realTabAccounts);
         console.log('📈 Demo Tab Accounts (using random balance over $10k):', demoTabAccounts);
@@ -320,8 +358,15 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
             });
         });
     }
-    const realTabIsVirtual = isFakeRealMode; // In fake mode, real tab shows demo account (virtual)
-    const demoTabIsVirtual = !isFakeRealMode; // In fake mode, demo tab shows fake demo account (virtual)
+    
+    if (isSimulationActive) {
+        console.log('🎮 Simulation Mode Active - Balance Override');
+        console.log('💰 Simulated Balance:', simulatedBalance);
+        console.log('📊 Active Account:', activeAccount?.loginid);
+        console.log('📈 Is Virtual:', activeAccount?.is_virtual);
+    }
+    const realTabIsVirtual = isFakeRealMode && !isSimulationActive; // In fake mode (not sim), real tab shows demo account (virtual)
+    const demoTabIsVirtual = !isFakeRealMode || isSimulationActive; // In fake mode (not sim), demo tab shows fake demo account (virtual); in sim mode, always virtual
 
     // Keep MF accounts in Real tab only (don't swap them)
     const realTabMFAccounts = modifiedMFAccountList;
@@ -374,7 +419,7 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                         />
                     </UIAccountSwitcher.Tab>
                     <UIAccountSwitcher.Tab title={tabs_labels.demo}>
-                        {isFakeRealMode ? (
+                        {isFakeRealMode && !isSimulationActive ? (
                             <RenderAccountItems
                                 modifiedCRAccountList={
                                     [
@@ -385,8 +430,21 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                                             currencyLabel: 'Demo',
                                             icon: <CurrencyIcon currency='virtual' isVirtual={true} />,
                                             isVirtual: true,
+                                            is_virtual: 1,
                                             isActive: activeAccount?.loginid === 'VRTC90234567',
-                                            is_disabled: false,
+                                            is_disabled: 0,
+                                            excluded_until: '',
+                                            landing_company_name: 'svg',
+                                            account_type: 'standard',
+                                            account_category: 'trading',
+                                            broker: 'VRT',
+                                            currency_type: 'fiat',
+                                            created_at: Date.now(),
+                                            email: '',
+                                            linked_to: [],
+                                            residence: '',
+                                            session_duration_limit: 0,
+                                            trading: {},
                                         },
                                     ] as TModifiedAccount[]
                                 }
@@ -400,8 +458,21 @@ const AccountSwitcher = observer(({ activeAccount }: TAccountSwitcher) => {
                                             currencyLabel: 'Demo',
                                             icon: <CurrencyIcon currency='virtual' isVirtual={true} />,
                                             isVirtual: true,
+                                            is_virtual: 1,
                                             isActive: activeAccount?.loginid === 'VRTC90234567',
-                                            is_disabled: false,
+                                            is_disabled: 0,
+                                            excluded_until: '',
+                                            landing_company_name: 'svg',
+                                            account_type: 'standard',
+                                            account_category: 'trading',
+                                            broker: 'VRT',
+                                            currency_type: 'fiat',
+                                            created_at: Date.now(),
+                                            email: '',
+                                            linked_to: [],
+                                            residence: '',
+                                            session_duration_limit: 0,
+                                            trading: {},
                                         },
                                     ] as TModifiedAccount[]
                                 }
