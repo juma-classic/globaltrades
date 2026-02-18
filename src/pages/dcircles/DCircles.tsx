@@ -6,6 +6,15 @@ interface TickData {
     quote: number;
 }
 
+interface ContractState {
+    isActive: boolean;
+    barrier: number | null;
+    entryDigit: number | null;
+    exitDigit: number | null;
+    isWin: boolean | null;
+    digitsAboveBarrier: number[];
+}
+
 export const DCircles: React.FC = () => {
     const [ticks, setTicks] = useState<TickData[]>([]);
     const [selectedSymbol, setSelectedSymbol] = useState('R_10');
@@ -14,6 +23,16 @@ export const DCircles: React.FC = () => {
     const [pipSize, setPipSize] = useState(2);
     const [totalTicks, setTotalTicks] = useState(1000);
     const [patternView, setPatternView] = useState<'evenodd' | 'overunder'>('evenodd');
+    const [isConnecting, setIsConnecting] = useState(true);
+    const [connectionError, setConnectionError] = useState<string | null>(null);
+    const [contractState, setContractState] = useState<ContractState>({
+        isActive: false,
+        barrier: null,
+        entryDigit: null,
+        exitDigit: null,
+        isWin: null,
+        digitsAboveBarrier: []
+    });
     const wsRef = useRef<WebSocket | null>(null);
 
     useEffect(() => {
@@ -34,6 +53,9 @@ export const DCircles: React.FC = () => {
         wsRef.current = ws;
 
         ws.onopen = () => {
+            console.log('✅ DCircles WebSocket connected');
+            setIsConnecting(false);
+            setConnectionError(null);
             ws.send(JSON.stringify({
                 ticks_history: selectedSymbol,
                 count: 1000,
@@ -45,13 +67,18 @@ export const DCircles: React.FC = () => {
 
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
+            console.log('📊 DCircles received data:', data);
 
             if (data.history) {
                 const tickData = data.history.prices.map((price: string, index: number) => ({
                     time: data.history.times[index],
                     quote: parseFloat(price)
                 }));
+                console.log('📈 Setting ticks:', tickData.length, 'ticks');
                 setTicks(tickData);
+                if (tickData.length > 0) {
+                    setCurrentPrice(tickData[tickData.length - 1].quote);
+                }
                 if (data.pip_size !== undefined) {
                     setPipSize(data.pip_size);
                 }
@@ -65,7 +92,22 @@ export const DCircles: React.FC = () => {
                 if (data.tick.pip_size !== undefined) {
                     setPipSize(data.tick.pip_size);
                 }
+            } else if (data.error) {
+                console.error('❌ DCircles WebSocket error:', data.error);
+                setConnectionError(data.error.message || 'Connection error');
+                setIsConnecting(false);
             }
+        };
+
+        ws.onerror = (error) => {
+            console.error('❌ DCircles WebSocket connection error:', error);
+            setConnectionError('Failed to connect to market data');
+            setIsConnecting(false);
+        };
+
+        ws.onclose = () => {
+            console.log('🔌 DCircles WebSocket disconnected');
+            setIsConnecting(false);
         };
     };
 
@@ -73,7 +115,56 @@ export const DCircles: React.FC = () => {
         return parseInt(price.toFixed(pipSize).slice(-1), 10);
     };
 
+    // Contract simulation functions
+    const simulateContractPurchase = (barrier: number) => {
+        const entryDigit = currentPrice ? getLastDigit(currentPrice) : null;
+        const digitsAbove = [];
+        
+        // Find all digits above the barrier
+        for (let i = 0; i <= 9; i++) {
+            if (i > barrier) {
+                digitsAbove.push(i);
+            }
+        }
+
+        setContractState({
+            isActive: true,
+            barrier,
+            entryDigit,
+            exitDigit: null,
+            isWin: null,
+            digitsAboveBarrier: digitsAbove
+        });
+    };
+
+    const simulateContractExit = (exitPrice: number, barrier: number) => {
+        const exitDigit = getLastDigit(exitPrice);
+        const isWin = exitDigit > barrier;
+
+        setContractState(prev => ({
+            ...prev,
+            isActive: false,
+            exitDigit,
+            isWin,
+            digitsAboveBarrier: [] // Clear soft glow
+        }));
+
+        // Auto-reset after 3 seconds
+        setTimeout(() => {
+            setContractState({
+                isActive: false,
+                barrier: null,
+                entryDigit: null,
+                exitDigit: null,
+                isWin: null,
+                digitsAboveBarrier: []
+            });
+        }, 3000);
+    };
+
     const digitDistribution = (() => {
+        if (ticks.length === 0) return Array(10).fill(0);
+        
         const counts = Array(10).fill(0);
         ticks.forEach(tick => {
             const digit = getLastDigit(tick.quote);
@@ -83,10 +174,12 @@ export const DCircles: React.FC = () => {
     })();
 
     const currentDigit = currentPrice ? getLastDigit(currentPrice) : null;
-    const maxPercent = Math.max(...digitDistribution);
-    const minPercent = Math.min(...digitDistribution.filter(p => p > 0));
+    const maxPercent = digitDistribution.length > 0 ? Math.max(...digitDistribution) : 0;
+    const minPercent = digitDistribution.length > 0 ? Math.min(...digitDistribution.filter(p => p > 0)) : 0;
 
     const evenOddStats = (() => {
+        if (ticks.length === 0) return { even: 0, odd: 0 };
+        
         let even = 0, odd = 0;
         ticks.forEach(tick => {
             const digit = getLastDigit(tick.quote);
@@ -101,6 +194,8 @@ export const DCircles: React.FC = () => {
     })();
 
     const risesFallsStats = (() => {
+        if (ticks.length < 2) return { rises: 0, falls: 0 };
+        
         let rises = 0, falls = 0;
         for (let i = 1; i < ticks.length; i++) {
             if (ticks[i].quote > ticks[i - 1].quote) rises++;
@@ -122,6 +217,16 @@ export const DCircles: React.FC = () => {
 
     return (
         <div className="dcircles-container">
+            {isConnecting && (
+                <div style={{ padding: '1rem', textAlign: 'center', background: 'var(--status-warning)', color: '#fff', borderRadius: '8px', marginBottom: '1rem' }}>
+                    Connecting to market data...
+                </div>
+            )}
+            {connectionError && (
+                <div style={{ padding: '1rem', textAlign: 'center', background: 'var(--status-danger)', color: '#fff', borderRadius: '8px', marginBottom: '1rem' }}>
+                    {connectionError} - Check console for details
+                </div>
+            )}
             <div className="dcircles-header">
                 <div className="price-display">
                     <div className="current-price">{currentPrice ? currentPrice.toFixed(pipSize) : 'N/A'}</div>
@@ -155,6 +260,11 @@ export const DCircles: React.FC = () => {
                         const isHighest = percent === maxPercent && percent > 0;
                         const progress = maxPercent > 0 ? (percent / maxPercent) * 100 : 0;
 
+                        // Determine glow state for this digit
+                        const isAboveBarrier = contractState.isActive && contractState.digitsAboveBarrier.includes(digit);
+                        const isExitWin = contractState.exitDigit === digit && contractState.isWin === true;
+                        const isExitLoss = contractState.exitDigit === digit && contractState.isWin === false;
+
                         return (
                             <div key={digit} className="digit-container">
                                 {digit === currentDigit && (
@@ -164,7 +274,7 @@ export const DCircles: React.FC = () => {
                                         </svg>
                                     </div>
                                 )}
-                                <div className="digit-circle-wrapper">
+                                <div className={`digit-circle-wrapper ${isAboveBarrier ? 'glow-soft-green' : ''} ${isExitWin ? 'glow-sharp-green' : ''} ${isExitLoss ? 'glow-sharp-red' : ''}`}>
                                     <div className="digit-circle">
                                         <svg className="progress-ring" viewBox="0 0 64 64">
                                             <circle
