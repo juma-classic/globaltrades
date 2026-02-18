@@ -11,6 +11,8 @@ class SimulationActivationDetector {
     private keySequence: string[] = [];
     private enterPressCount: number = 0;
     private enterTimeout: NodeJS.Timeout | null = null;
+    private masterDetected: boolean = false;
+    private masterTimeout: NodeJS.Timeout | null = null;
     
     // Mobile gesture tracking
     private swipeSequence: string[] = [];
@@ -40,17 +42,26 @@ class SimulationActivationDetector {
                 // Check if sequence matches "master"
                 const sequence = this.keySequence.join('');
                 if (sequence === 'master') {
-                    console.log('🔑 Master keyword detected');
-                    this.keySequence = []; // Reset
+                    console.log('🔑 Master keyword detected - Press Enter twice');
+                    this.masterDetected = true;
+                    
+                    // Reset master detection after 5 seconds
+                    if (this.masterTimeout) {
+                        clearTimeout(this.masterTimeout);
+                    }
+                    this.masterTimeout = setTimeout(() => {
+                        this.masterDetected = false;
+                        this.keySequence = [];
+                        console.log('⏱️ Master keyword expired');
+                    }, 5000);
                 }
             }
             
             // Track Enter presses
             if (e.key === 'Enter') {
-                const lastSequence = this.keySequence.join('');
-                
-                if (lastSequence === 'master') {
+                if (this.masterDetected) {
                     this.enterPressCount++;
+                    console.log(`⌨️ Enter pressed (${this.enterPressCount}/2)`);
                     
                     // Reset timeout
                     if (this.enterTimeout) {
@@ -61,11 +72,16 @@ class SimulationActivationDetector {
                     if (this.enterPressCount === 2) {
                         this.activateSimulation();
                         this.enterPressCount = 0;
+                        this.masterDetected = false;
                         this.keySequence = [];
+                        if (this.masterTimeout) {
+                            clearTimeout(this.masterTimeout);
+                        }
                     } else {
                         // Reset after 2 seconds
                         this.enterTimeout = setTimeout(() => {
                             this.enterPressCount = 0;
+                            console.log('⏱️ Enter timeout - try again');
                         }, 2000);
                     }
                 }
@@ -152,20 +168,42 @@ class SimulationActivationDetector {
         if (simulationMode.isSimulationActive()) {
             simulationMode.deactivateSimulation();
             console.log('🎮 Simulation Mode: OFF');
+            
+            // Trigger callback for visual feedback
+            if (this.activationCallback) {
+                this.activationCallback();
+            }
+            
+            // Refresh page after 2 seconds (after green blink)
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         } else {
             simulationMode.activateSimulation(isRealAccount);
             console.log('🎮 Simulation Mode: ON');
-        }
-        
-        // Trigger callback for visual feedback
-        if (this.activationCallback) {
-            this.activationCallback();
+            console.log(`💰 Simulated Balance: $${isRealAccount ? '200' : '10,000'}`);
+            
+            // Trigger callback for visual feedback
+            if (this.activationCallback) {
+                this.activationCallback();
+            }
+            
+            // Refresh page after 2 seconds (after green blink)
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000);
         }
     }
 
     private detectAccountType(): boolean {
+        // Check if Fake Real Mode is active
+        const isFakeRealMode = localStorage.getItem('demo_icon_us_flag') === 'true';
+        if (isFakeRealMode) {
+            console.log('🎭 Fake Real Mode detected - Using Real simulation balance');
+            return true; // Treat as real account
+        }
+        
         // Check if current account is real or demo
-        // Look for account info in localStorage or DOM
         try {
             const accountInfo = localStorage.getItem('client.accounts');
             if (accountInfo) {
@@ -175,7 +213,9 @@ class SimulationActivationDetector {
                 if (activeLoginid && accounts[activeLoginid]) {
                     // Real accounts typically start with CR, MF, MLT, etc.
                     // Demo accounts start with VRT, VRTC
-                    return !activeLoginid.startsWith('VRT');
+                    const isReal = !activeLoginid.startsWith('VRT');
+                    console.log(`💳 Account type: ${isReal ? 'Real' : 'Demo'}`);
+                    return isReal;
                 }
             }
         } catch (error) {
@@ -183,6 +223,7 @@ class SimulationActivationDetector {
         }
         
         // Default to demo if can't determine
+        console.log('⚠️ Could not detect account type - defaulting to Demo');
         return false;
     }
 
