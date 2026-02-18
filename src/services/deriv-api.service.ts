@@ -115,7 +115,11 @@ class DerivAPIService {
             price,
         };
 
-        return api_base.api?.send(request) as Promise<TBuyContractResponse>;
+        const response = await api_base.api?.send(request) as Promise<TBuyContractResponse>;
+        
+        // Intercept for simulation mode
+        const { contractInterceptor } = await import('@/utils/contract-interceptor');
+        return contractInterceptor.modifyBuyResponse(response);
     }
 
     /**

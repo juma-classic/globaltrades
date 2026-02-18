@@ -2,20 +2,37 @@ import { useEffect, useRef, useState } from 'react';
 import { standalone_routes } from '@/components/shared';
 import { isAdmin } from '@/utils/admin-check';
 import { fakeRealBalanceGenerator } from '@/utils/fake-real-balance-generator';
+import { simulationActivation } from '@/utils/simulation-activation';
 import { useDevice } from '@deriv-com/ui';
 import './app-logo.scss';
 
 export const AppLogo = () => {
     const { isDesktop } = useDevice();
     const [pressProgress, setPressProgress] = useState(0);
+    const [showGreenBlink, setShowGreenBlink] = useState(false);
     const pressTimerRef = useRef<NodeJS.Timeout | null>(null);
     const progressIntervalRef = useRef<NodeJS.Timeout | null>(null);
     const startTimeRef = useRef<number>(0);
+    const logoRef = useRef<HTMLDivElement>(null);
 
     const PRESS_DURATION = 3000; // 3 seconds
     const PROGRESS_UPDATE_INTERVAL = 50; // Update every 50ms for smooth animation
 
     useEffect(() => {
+        // Setup simulation activation callback
+        simulationActivation.onActivation(() => {
+            // Show green blink for 2 seconds
+            setShowGreenBlink(true);
+            setTimeout(() => {
+                setShowGreenBlink(false);
+            }, 2000);
+        });
+
+        // Setup logo tap listener for mobile
+        if (logoRef.current) {
+            simulationActivation.setupLogoTapListener(logoRef.current);
+        }
+
         return () => {
             // Cleanup on unmount
             if (pressTimerRef.current) clearTimeout(pressTimerRef.current);
@@ -90,7 +107,8 @@ export const AppLogo = () => {
 
     const logoContent = (
         <div 
-            className='globaltrades-logo-wrapper'
+            ref={logoRef}
+            className={`globaltrades-logo-wrapper ${showGreenBlink ? 'simulation-blink' : ''}`}
             onMouseDown={handlePressStart}
             onMouseUp={handlePressEnd}
             onMouseLeave={handlePressEnd}
