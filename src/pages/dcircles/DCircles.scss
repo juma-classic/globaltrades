@@ -7,6 +7,15 @@
     padding: 1.5rem;
     overflow-y: auto;
     color: var(--text-prominent);
+    transition: margin-right 0.3s ease, max-width 0.3s ease;
+}
+
+/* Adjust DCircles when drawer is open on desktop */
+@media (min-width: 769px) {
+    .dcircles-container {
+        margin-right: 38.6rem; /* Drawer width (36.6rem) + spacing (2rem) */
+        max-width: calc(100vw - 40.6rem); /* Full width minus drawer and spacing */
+    }
 }
 
 .dcircles-header {

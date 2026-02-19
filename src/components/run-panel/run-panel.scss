@@ -106,26 +106,18 @@
 
     &__footer {
         text-align: center;
-        position: fixed !important; /* Fixed to viewport instead of absolute */
-        bottom: 3rem !important; /* Reduced from 4rem to 3rem for more content space */
-        left: 2rem !important; /* Align with panel position */
-        width: 36.6rem !important; /* Match panel width */
-        height: 70px !important; /* Reduced height from 90px to 70px */
-        background: linear-gradient(
-            135deg,
-            rgb(15 23 42 / 95%) 0%,
-            rgb(30 41 59 / 95%) 100%
-        ) !important; /* Dark gradient background */
-
-        border: 2px solid #14b8a6 !important; /* Teal border to match site branding */
-        border-radius: 12px !important; /* More rounded corners */
-        z-index: 1001 !important; /* Even higher z-index to ensure visibility */
-        box-shadow:
-            0 8px 32px rgb(0 0 0 / 40%),
-            0 0 20px rgb(20 184 166 / 20%) !important; /* Enhanced shadow with teal glow */
-
-        pointer-events: auto !important; /* Ensure events are captured */
-        backdrop-filter: blur(10px) !important; /* Glass effect */
+        position: fixed !important;
+        bottom: 3rem !important;
+        left: 2rem !important;
+        width: 36.6rem !important;
+        height: 70px !important;
+        background: transparent !important; /* Remove dark background */
+        border: none !important; /* Remove teal border */
+        border-radius: 0 !important;
+        z-index: 1001 !important;
+        box-shadow: none !important; /* Remove shadow */
+        pointer-events: auto !important;
+        backdrop-filter: none !important; /* Remove blur effect */
 
         @include flex-center(center);
 
@@ -137,79 +129,82 @@
         }
 
         &-button {
-            width: 280px !important; /* Slightly smaller to fit better */
-            height: 40px !important; /* Reduced height from 50px to 40px for more content space */
-            margin: 6px !important; /* Reduced margin from 8px to 6px */
-            background: linear-gradient(
-                135deg,
-                #0d9488 0%,
-                #14b8a6 100%
-            ) !important; /* Teal gradient matching site branding */
+            width: 280px !important;
+            height: 40px !important;
+            margin: 6px !important;
+            background: transparent !important; /* No background */
+            color: #ffffff !important; /* White text */
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            border-radius: 4px !important;
+            box-shadow: none !important; /* No shadow */
+            cursor: pointer !important;
+            border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Subtle white border */
+            text-transform: none !important;
+            letter-spacing: normal !important;
+            pointer-events: auto !important;
+            transition: all 0.2s ease !important;
 
-            color: #fff !important; /* Pure white text - forced with high specificity */
-            font-weight: 700 !important; /* Bolder text */
-            font-size: 16px !important; /* Reduced from 18px to 16px */
-            border-radius: 8px !important; /* More rounded corners */
-            box-shadow:
-                0 4px 12px rgb(13 148 136 / 40%),
-                0 0 20px rgb(20 184 166 / 20%) !important; /* Teal glow effect */
-
-            cursor: pointer !important; /* Ensure button is clickable */
-            border: 2px solid rgb(255 255 255 / 20%) !important; /* Subtle white border */
-            text-transform: uppercase; /* Make text more prominent */
-            letter-spacing: 1px !important; /* Better letter spacing */
-            pointer-events: auto !important; /* Ensure button events work */
-            transition: all 0.3s ease !important; /* Smooth transitions */
-
-            /* Override shared button component styles - target all text elements */
+            /* Override shared button component styles */
             .dc-btn__text,
             .dc-btn__icon,
             span,
             & > * {
-                color: #fff !important;
+                color: #ffffff !important;
                 text-decoration: none !important;
             }
 
-            /* Ensure white text with maximum specificity */
             &,
             &:link,
             &:visited,
             &:focus,
             &:active {
-                color: #fff !important;
+                color: #ffffff !important;
                 text-decoration: none !important;
             }
 
             &:hover {
-                background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%) !important; /* Darker teal on hover */
-                color: #fff !important; /* Keep white text on hover */
-                transform: translateY(-2px) scale(1.02) !important; /* Lift effect */
-                box-shadow:
-                    0 6px 16px rgb(13 148 136 / 60%),
-                    0 0 30px rgb(20 184 166 / 30%) !important; /* Enhanced teal glow on hover */
+                background: rgba(255, 255, 255, 0.1) !important; /* Slight white background on hover */
+                color: #ffffff !important;
+                transform: translateY(-1px) !important;
+                box-shadow: none !important;
+                border-color: rgba(255, 255, 255, 0.5) !important;
 
-                border-color: rgb(255 255 255 / 40%) !important; /* Brighter border on hover */
-
-                /* Ensure white text on hover for all child elements */
                 .dc-btn__text,
                 .dc-btn__icon,
                 span,
                 & > * {
-                    color: #fff !important;
+                    color: #ffffff !important;
                 }
             }
 
             &:active {
-                transform: translateY(0) scale(1) !important; /* Reset on click */
-                box-shadow: 0 2px 8px rgb(13 148 136 / 40%) !important; /* Reduced shadow on click */
-                color: #fff !important; /* Ensure white text on active state */
+                transform: translateY(0) !important;
+                background: rgba(255, 255, 255, 0.05) !important;
+                color: #ffffff !important;
 
-                /* Ensure white text on active for all child elements */
                 .dc-btn__text,
                 .dc-btn__icon,
                 span,
                 & > * {
-                    color: #fff !important;
+                    color: #ffffff !important;
+                }
+            }
+
+            /* Disabled state */
+            &:disabled,
+            &[disabled] {
+                background: transparent !important;
+                color: rgba(255, 255, 255, 0.3) !important;
+                cursor: not-allowed !important;
+                transform: none !important;
+                border-color: rgba(255, 255, 255, 0.1) !important;
+
+                .dc-btn__text,
+                .dc-btn__icon,
+                span,
+                & > * {
+                    color: rgba(255, 255, 255, 0.3) !important;
                 }
             }
         }
