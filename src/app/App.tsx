@@ -73,6 +73,9 @@ const SpeedBotPage = lazy(() => import('../pages/speed-bot-page').then(m => ({ d
 // DTrader External Iframe
 const DTraderIframeExternal = lazy(() => import('../pages/dtrader-iframe-external').then(m => ({ default: m.default })));
 
+// DTrader Iframe (Integrated)
+const DTraderIframe = lazy(() => import('../pages/dtrader-iframe').then(m => ({ default: m.default })));
+
 // New Copy Trading Page
 const NewCopyTrading = lazy(() => import('../pages/new-copy-trading').then(m => ({ default: m.default })));
 
@@ -138,6 +141,9 @@ const router = createBrowserRouter(
 
             {/* DTrader External Iframe */}
             <Route path='dtrader-external' element={<DTraderIframeExternal />} />
+
+            {/* DTrader Iframe (Integrated) */}
+            <Route path='dtrader' element={<DTraderIframe />} />
 
             {/* New Copy Trading Page */}
             <Route path='new-copy-trading' element={<NewCopyTrading />} />

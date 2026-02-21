@@ -44,6 +44,18 @@ const AdvancedAnalysisIcon = () => (
     </svg>
 );
 
+const DTraderIcon = () => (
+    <svg width='20' height='20' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'>
+        <rect x='2' y='4' width='20' height='16' rx='2' stroke='currentColor' strokeWidth='2' fill='none' />
+        <path d='M6 14l3-3 3 3 6-6' stroke='#00D4FF' strokeWidth='2' strokeLinecap='round' strokeLinejoin='round' />
+        <circle cx='6' cy='14' r='1.5' fill='#00D4FF' />
+        <circle cx='9' cy='11' r='1.5' fill='#00FF88' />
+        <circle cx='12' cy='14' r='1.5' fill='#FFD93D' />
+        <circle cx='18' cy='8' r='1.5' fill='#FF6B6B' />
+        <path d='M2 8h20' stroke='currentColor' strokeWidth='1' opacity='0.3' />
+    </svg>
+);
+
 export type PlatformsConfig = {
     active: boolean;
     buttonIcon: ReactNode;
@@ -107,6 +119,12 @@ export const TRADERS_HUB_LINK_CONFIG = {
 };
 
 export const MenuItems: MenuItemsConfig[] = [
+    {
+        as: 'a',
+        href: '/dtrader',
+        icon: <DTraderIcon />,
+        label: localize('DTrader'),
+    },
     {
         as: 'a',
         href: '/accumulator',

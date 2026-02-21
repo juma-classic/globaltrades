@@ -106,11 +106,12 @@
 
     &__footer {
         text-align: center;
-        position: fixed !important;
-        bottom: 3rem !important;
-        left: 2rem !important;
-        width: 36.6rem !important;
-        height: 70px !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        height: 120px !important;
         background: transparent !important; /* Remove dark background */
         border: none !important; /* Remove teal border */
         border-radius: 0 !important;
@@ -133,13 +134,13 @@
             height: 40px !important;
             margin: 6px !important;
             background: transparent !important; /* No background */
-            color: #ffffff !important; /* White text */
+            color: #fff !important; /* White text */
             font-weight: 600 !important;
             font-size: 14px !important;
             border-radius: 4px !important;
             box-shadow: none !important; /* No shadow */
             cursor: pointer !important;
-            border: 1px solid rgba(255, 255, 255, 0.3) !important; /* Subtle white border */
+            border: 1px solid rgb(255 255 255 / 30%) !important; /* Subtle white border */
             text-transform: none !important;
             letter-spacing: normal !important;
             pointer-events: auto !important;
@@ -150,7 +151,7 @@
             .dc-btn__icon,
             span,
             & > * {
-                color: #ffffff !important;
+                color: #fff !important;
                 text-decoration: none !important;
             }
 
@@ -159,35 +160,35 @@
             &:visited,
             &:focus,
             &:active {
-                color: #ffffff !important;
+                color: #fff !important;
                 text-decoration: none !important;
             }
 
             &:hover {
-                background: rgba(255, 255, 255, 0.1) !important; /* Slight white background on hover */
-                color: #ffffff !important;
+                background: rgb(255 255 255 / 10%) !important; /* Slight white background on hover */
+                color: #fff !important;
                 transform: translateY(-1px) !important;
                 box-shadow: none !important;
-                border-color: rgba(255, 255, 255, 0.5) !important;
+                border-color: rgb(255 255 255 / 50%) !important;
 
                 .dc-btn__text,
                 .dc-btn__icon,
                 span,
                 & > * {
-                    color: #ffffff !important;
+                    color: #fff !important;
                 }
             }
 
             &:active {
                 transform: translateY(0) !important;
-                background: rgba(255, 255, 255, 0.05) !important;
-                color: #ffffff !important;
+                background: rgb(255 255 255 / 5%) !important;
+                color: #fff !important;
 
                 .dc-btn__text,
                 .dc-btn__icon,
                 span,
                 & > * {
-                    color: #ffffff !important;
+                    color: #fff !important;
                 }
             }
 
@@ -195,16 +196,16 @@
             &:disabled,
             &[disabled] {
                 background: transparent !important;
-                color: rgba(255, 255, 255, 0.3) !important;
+                color: rgb(255 255 255 / 30%) !important;
                 cursor: not-allowed !important;
                 transform: none !important;
-                border-color: rgba(255, 255, 255, 0.1) !important;
+                border-color: rgb(255 255 255 / 10%) !important;
 
                 .dc-btn__text,
                 .dc-btn__icon,
                 span,
                 & > * {
-                    color: rgba(255, 255, 255, 0.3) !important;
+                    color: rgb(255 255 255 / 30%) !important;
                 }
             }
         }
@@ -215,8 +216,8 @@
         justify-content: space-between;
         flex-direction: column;
         overflow: hidden !important;
-        height: calc(100% - 40px); /* Increased available height by reducing reserved space from 60px to 40px */
-        padding-bottom: 80px !important; /* Reduced padding from 100px to 80px */
+        height: 100%; /* Increased available height by reducing reserved space from 60px to 40px */
+        padding-bottom: 180px !important; /* Reduced padding from 100px to 80px */
 
         .dc-tabs {
             &__item {

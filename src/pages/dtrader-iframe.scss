@@ -1,15 +1,179 @@
-.dtrader-iframe-container {
+.dtrader-container {
     width: 100%;
-    height: calc(100vh - 120px);
-    min-height: calc(100vh - 120px);
-    overflow: hidden;
-    background: #f8fafc;
-    position: relative;
+    height: 100%;
+    padding: 1rem;
+    background: var(--general-main-1);
+    display: flex;
+    flex-direction: column;
+}
+
+.dtrader-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding: 0.5rem 0;
+
+    h2 {
+        color: var(--text-prominent);
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+    }
+}
+
+.dtrader-reload-btn {
+    padding: 0.5rem 1rem;
+    background: var(--button-secondary-default);
+    color: var(--text-prominent);
+    border: 1px solid var(--border-normal);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--button-secondary-hover);
+        transform: translateY(-1px);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
 }
 
 .dtrader-iframe {
     width: 100%;
-    height: 100%;
+    height: calc(100vh - 140px);
     border: none;
-    display: block;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
+}
+
+.dtrader-loading,
+.dtrader-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: calc(100vh - 120px);
+    text-align: center;
+    color: var(--text-prominent);
+
+    h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: var(--text-prominent);
+    }
+
+    p {
+        font-size: 1rem;
+        color: var(--text-general);
+        margin-bottom: 1.5rem;
+    }
+}
+
+.dtrader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid var(--border-normal);
+    border-top-color: var(--brand-red-coral);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 1rem;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.dtrader-error-button {
+    padding: 0.75rem 1.5rem;
+    background: var(--button-secondary-default);
+    color: var(--text-prominent);
+    border: 1px solid var(--border-normal);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0.5rem;
+    transition: all 0.2s ease;
+
+    &:hover {
+        background: var(--button-secondary-hover);
+        transform: translateY(-1px);
+    }
+
+    &--primary {
+        background: var(--brand-red-coral);
+        color: #ffffff;
+        border-color: var(--brand-red-coral);
+
+        &:hover {
+            background: var(--button-primary-hover);
+        }
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .dtrader-container {
+        padding: 0.5rem;
+    }
+
+    .dtrader-header {
+        h2 {
+            font-size: 1.2rem;
+        }
+    }
+
+    .dtrader-reload-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .dtrader-iframe {
+        height: calc(100vh - 120px);
+        border-radius: 0;
+    }
+
+    .dtrader-loading,
+    .dtrader-error {
+        height: calc(100vh - 100px);
+
+        h3 {
+            font-size: 1.2rem;
+        }
+
+        p {
+            font-size: 0.9rem;
+            padding: 0 1rem;
+        }
+    }
+
+    .dtrader-error-button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+/* Extra small phones */
+@media (max-width: 374px) {
+    .dtrader-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+
+        h2 {
+            font-size: 1.1rem;
+        }
+    }
+
+    .dtrader-iframe {
+        height: calc(100vh - 140px);
+    }
 }
